@@ -1,0 +1,42 @@
+server:
+  port: 9999
+
+management:
+  security:
+    enabled: false
+
+eureka:
+  instance:
+    hostname: localhost
+#    server:
+#      enableSelfPreservation: false
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka/
+
+spring:
+  boot:
+    admin:
+      context-path: /admin
+      routes:
+        endpoints: env, metrics, trace, jolokia, info, configprops
+  application:
+    name: eureka-server
+  profiles:
+    active: development
+  security:
+    user:
+      name: test
+      password: password
+  cloud:
+    config:
+      uri: http://localhost:8888
+      username: root
+      password: s3cr3t
+
+logging:
+  level:
+    org.exampledriven.eureka.customer.shared.CustomerServiceFeignClient: DEBUG
+    org.exampledriven.eureka: DEBUG
+
